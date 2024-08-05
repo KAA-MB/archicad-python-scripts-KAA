@@ -15,8 +15,10 @@ ATTRIBUTES - create folders and sort attributes into folders (layers example)
 ATTRIBUTES - audit names (layers example)
 •	Audits attribute names according to our firm’s naming convention, and prints a list of “non-compliant” attributes. 
 
-INTERIOR DOORS
+INTERIOR DOORS - number sequentially
 •	Numbers interior Doors sequentially starting from "First Door” (a custom property), and proceeding by closest distance from this first door. The script relies on correct Classification as Door, and uses the built-in property for Position: Interior. If there's a selection, the script uses only selected doors; otherwise it uses all doors in project. Numbering series is unique per story level (e.g. 101, 102 for 1st floor; 201, 202 for 2nd floor).
+
+INTERIOR DOORS - number by zone
 •	Numbers interior Doors based on associated Zone’s number + letter of alphabet (e.g. 101a, 101b). The script uses the built-in property for Position: Interior. If there's a selection, the script uses only selected doors; otherwise it uses all doors in project. Ideally this script would also have logic to move clockwise around each zone so the a, b, c sequence is more logical.
 
 EXTERIOR DOORS/WINDOWS
