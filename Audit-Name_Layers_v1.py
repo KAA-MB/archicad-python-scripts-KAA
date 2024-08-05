@@ -1,5 +1,5 @@
 ######################################### General Info #########################################
-# Written by: Jessica Wood                                                                     #
+# Written by: Jessica Wood w/ Meghan Beckmann, for KAA Design Group                            #
 # Date Created: 09/2022                                                                        #
 #                                                                                              #
 # Description:                                                                                 #
