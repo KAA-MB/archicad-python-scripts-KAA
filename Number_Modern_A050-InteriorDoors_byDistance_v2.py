@@ -2,6 +2,7 @@
 # Written by: Jessica Wood  w/ Meghan Beckmann, for KAA Design Group                           #
 # Date Created: 09/2022                                                                        #
 # Date Modified: 02/2023    JW + MB                                                            #
+# Date Updated: 08/2024 for AC27 Template standards                                            #
 #                                                                                              #
 # Description:                                                                                 #
 # This script generates unique ordered interior door element IDs. Sets the door                #
@@ -33,8 +34,8 @@ acu = conn.utilities
 
 ################################################################################# CONFIGURATION INTERIOR DOORS ##############################################################################
 
-# *** Doors grabbed relient on selected elements ***
-# This script assumes that there is an entry interior door 
+# *** Doors grabbed reliant on selected elements ***
+# This script assumes that there is an entry interior door (first door custom property)
 # The script numbers all interior doors or just selected doors... hidden doors are still an issue.
 
 # property ID for Doors
@@ -143,22 +144,27 @@ def sortPositionsByDistance(positions: Iterable[Tuple[float, float, float, float
 #zClusters = createClusters((bb.boundingBox3D.zMin for bb in zoneBoundingBoxes), STORY_GROUPING_LIMIT)
 
 # Check if there are selected elements
-if (len(selectedDoors) == 0): # no doors selected
+# Check if there are selected elements
+if len(selectedDoors) == 0:  # no doors selected
     countAll = True
-    elements = doorElements
-    boundingBoxes = acc.Get3DBoundingBoxes(elements)
-    doorBoundingBoxes = list(zip(elements, boundingBoxes))
-    isCounted = list(zip(elements, [False for i in range(len(elements))]))
-else: #use selected doors
+    # Filter doorElements to include only "Interior" doors
+    elementsPosVals = acc.GetPropertyValuesOfElements(doorElements, positionPropertyIdArrayItem)
+    elements = []
+    for i in range(len(elementsPosVals)):
+        if elementsPosVals[i].propertyValues[0].propertyValue.value.nonLocalizedValue == "Interior":
+            elements.append(doorElements[i])
+else:  # use selected doors
     countAll = False
     elementsPosVals = acc.GetPropertyValuesOfElements(selectedDoors, positionPropertyIdArrayItem)
     elements = []
-    for i in range(0, len(elementsPosVals)):
-        if (elementsPosVals[i].propertyValues[0].propertyValue.value.nonLocalizedValue == "Interior"):
+    for i in range(len(elementsPosVals)):
+        if elementsPosVals[i].propertyValues[0].propertyValue.value.nonLocalizedValue == "Interior":
             elements.append(selectedDoors[i])
-    boundingBoxes = acc.Get3DBoundingBoxes(elements)
-    doorBoundingBoxes = list(zip(elements, boundingBoxes))
-    isCounted = list(zip(elements, [False for i in range(len(elements))]))
+
+boundingBoxes = acc.Get3DBoundingBoxes(elements)
+doorBoundingBoxes = list(zip(elements, boundingBoxes))
+isCounted = list(zip(elements, [False for _ in range(len(elements))]))
+
 
 
 storyIndex = 0
